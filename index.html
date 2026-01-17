@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8" />
-<title>MEKARINDAH - Anti Ad Edition</title>
+<title>MEKARINDAH MINI - Deep Purple Vinyl</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style>
     :root { 
@@ -11,6 +11,7 @@
         --neon-blue: #00f2ff;
         --ungu-tua: #1e1b4b;
         --ungu-muda: #4c1d95;
+        /* WARNA VINYL DISET LEBIH TUA DIKIT */
         --vinyl-purple: #7c3aed; 
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,26 +40,34 @@
     
     .neon-glow {
         position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px;
-        border-radius: 50%; border: 2px solid var(--neon);
-        opacity: 0; transition: 0.5s;
+        border-radius: 50%;
+        border: 2px solid var(--neon);
+        opacity: 0;
+        transition: 0.5s;
     }
-    .playing .neon-glow { opacity: 1; animation: neon-pulse 2s infinite ease-in-out; }
+    .playing .neon-glow {
+        opacity: 1;
+        animation: neon-pulse 2s infinite ease-in-out;
+    }
 
+    /* VINYL UNGU TUA MEDIUM */
     .vinyl {
         width: 100%; height: 100%; border-radius: 50%;
+        /* Gradasi dibuat lebih dalam/tua */
         background: radial-gradient(circle, #a78bfa 0%, var(--vinyl-purple) 45%, #4c1d95 100%), 
                     repeating-radial-gradient(circle, transparent 0, transparent 2px, rgba(0,0,0,0.15) 3px, transparent 4px);
         animation: spin 12s linear infinite; animation-play-state: paused;
         position: relative; z-index: 1;
-        box-shadow: inset 0 0 25px rgba(0,0,0,0.3);
+        box-shadow: inset 0 0 25px rgba(0,0,0,0.3), 0 0 15px rgba(124, 58, 237, 0.3);
     }
-
     .cover-art {
         position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
         width: 58%; height: 58%; border-radius: 50%; overflow: hidden; 
-        border: 2px solid #fff; z-index: 2; background-color: #000;
+        border: 2px solid #fff; z-index: 2;
+        background-color: #000;
     }
     .cover-art img { width: 100%; height: 100%; object-fit: cover; }
+
     .playing .vinyl { animation-play-state: running; }
 
     .info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
@@ -109,7 +118,7 @@
             </div>
         </div>
     </div>
-    <audio id="audio" src="https://stream-154.zeno.fm/d2k0ptw4kkeuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJkMmswcHR3NGtrZXV2IiwiaG9zdCI6InN0cmVhbS0xNTQuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IktmSHBkaVJ5U2VTcWRRUm44SG1iM1EiLCJpYXQiOjE3Njg2MTE0MjEsImV4cCI6MTc2ODYxMTQ4MX0.skETtFj3iYRFgudCCxiB1pTmLKwLeCP0c-QWB7t0Fnw/;" crossorigin="anonymous"></audio>
+    <audio id="audio" src="https://stream.zeno.fm/d2k0ptw4kkeuv" crossorigin="anonymous"></audio>
 </div>
 
 <script>
@@ -123,28 +132,14 @@
     const defaultCover = "https://mekarindah.netlify.app/img/default.jpg";
 
     const RECITER_COVERS = {
-            'mishary': 'https://i.ytimg.com/vi/GLMp_EGGLfk/hq720.jpg?sqp=-oaymwExCK4FEIIDSFryq4qpAyMIARUAAIhCGAHwAQH4AdQGgALgA4oCDAgAEAEYciBWKDgwDw==&rs=AOn4CLAa_DZgLB8D4xcMTFPgxpnQghg_sw',
-            'abdul': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT99qAcwhSDEUMmxHHzjEfna9YVgtg-04A8rDvXbaNtZf-70ZkRxFPl_i5J_he-DnfdtO7EhS0ouUaiu-hq_bE8Ni9U3xKBjsAdFgzAg4w&s=10',
-            'adi hidayat': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi7cw0cL0cs4aqyXA5sbBMBaCWGmW0D28pzruJKEWXlx9RYeQLuZouy9VlqLk9oWvOxlO7jHAh6QOXhjPyKPQZqz2rez4YV5XOPrgTTQ&s=10',
-            'zainuddin': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDo4WarU6dxMHRx3BFqisexu4euGqv9Ni9_JZA5jZBwA&s=10',
-            'latif': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSgeut2z_VzZzl5_B7sbcdxL2FkG3Rd3dOTaS3WCOXEA&s=10',
-            'al sudais': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Abdulrahman_Al-Sudais.jpg/440px-Abdulrahman_Al-Sudais.jpg',
-            'ghamdi': 'https://i.ibb.co/Wp0y1hG/ghamdi.jpg',
-            'shatri': 'https://i.ibb.co/fQ5N204/shatri.jpg',
-            'abdul basit': 'https://i.ibb.co/RzM805h/abdulbasit.jpg'
+        'mishary': 'https://i.ytimg.com/vi/GLMp_EGGLfk/hq720.jpg',
+        'abdul': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT99qAcwhSDEUMmxHHzjEfna9YVgtg-04A8rDvXbaNtZf-70ZkRxFPl_i5J_he-DnfdtO7EhS0ouUaiu-hq_bE8Ni9U3xKBjsAdFgzAg4w&s=10',
+        'adi hidayat': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi7cw0cL0cs4aqyXA5sbBMBaCWGmW0D28pzruJKEWXlx9RYeQLuZouy9VlqLk9oWvOxlO7jHAh6QOXhjPyKPQZqz2rez4YV5XOPrgTTQ&s=10',
+        'ali jaber': 'https://mekarindah.netlify.app/img/alijaber.jpg' 
     };
-
-    let firstPlay = true;
 
     playBtn.onclick = () => {
         if (audio.paused) {
-            // LOGIKA ANTI IKLAN: Paksa koneksi baru saat pertama kali play
-            if (firstPlay) {
-                const baseSrc = "https://stream.zeno.fm/d2k0ptw4kkeuv/;";
-                audio.src = baseSrc + "?t=" + new Date().getTime(); 
-                audio.load();
-                firstPlay = false;
-            }
             audio.play();
             icon.className = 'pause-icon';
             player.classList.add('playing');
