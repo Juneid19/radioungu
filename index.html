@@ -2,16 +2,15 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8" />
-<title>MEKARINDAH MINI - Deep Purple Vinyl</title>
+<title>MEKARINDAH - Autoplay + Reciters Fixed</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style>
     :root { 
-        --v-size: 140px; 
+        --v-size: 150px; 
         --neon: #ff006e; 
         --neon-blue: #00f2ff;
         --ungu-tua: #1e1b4b;
         --ungu-muda: #4c1d95;
-        /* WARNA VINYL DISET LEBIH TUA DIKIT */
         --vinyl-purple: #7c3aed; 
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,34 +39,26 @@
     
     .neon-glow {
         position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px;
-        border-radius: 50%;
-        border: 2px solid var(--neon);
-        opacity: 0;
-        transition: 0.5s;
+        border-radius: 50%; border: 2px solid var(--neon);
+        opacity: 0; transition: 0.5s;
     }
-    .playing .neon-glow {
-        opacity: 1;
-        animation: neon-pulse 2s infinite ease-in-out;
-    }
+    .playing .neon-glow { opacity: 1; animation: neon-pulse 2s infinite ease-in-out; }
 
-    /* VINYL UNGU TUA MEDIUM */
     .vinyl {
         width: 100%; height: 100%; border-radius: 50%;
-        /* Gradasi dibuat lebih dalam/tua */
-        background: radial-gradient(circle, #4f176e 0%, var(--vinyl-purple) 25%, #310940 100%), 
+        background: radial-gradient(circle, #a78bfa 0%, var(--vinyl-purple) 45%, #4c1d95 100%), 
                     repeating-radial-gradient(circle, transparent 0, transparent 2px, rgba(0,0,0,0.15) 3px, transparent 4px);
         animation: spin 12s linear infinite; animation-play-state: paused;
         position: relative; z-index: 1;
-        box-shadow: inset 0 0 25px rgba(0,0,0,0.3), 0 0 15px rgba(124, 58, 237, 0.3);
+        box-shadow: inset 0 0 25px rgba(0,0,0,0.3);
     }
+
     .cover-art {
         position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
         width: 58%; height: 58%; border-radius: 50%; overflow: hidden; 
-        border: 2px solid #fff; z-index: 2;
-        background-color: #000;
+        border: 2px solid #fff; z-index: 2; background-color: #000;
     }
     .cover-art img { width: 100%; height: 100%; object-fit: cover; }
-
     .playing .vinyl { animation-play-state: running; }
 
     .info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
@@ -83,9 +74,9 @@
         background: linear-gradient(135deg, var(--neon), #7c3aed); color: #fff; cursor: pointer;
         display: flex; align-items: center; justify-content: center;
     }
-    .play-icon { width: 0; height: 0; border-style: solid; border-width: 8px 0 8px 14px; border-color: transparent transparent transparent #fff; margin-left: 4px; }
-    .pause-icon { width: 12px; height: 16px; border-left: 4px solid #fff; border-right: 4px solid #fff; }
     
+    .mute-icon { font-size: 20px; }
+
     .live-dot { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; animation: blink 1s infinite; }
 
     @keyframes background-shift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
@@ -112,25 +103,28 @@
         <div class="artist" id="artist">Connecting...</div>
         <div class="title-wrap"><div class="title" id="title">Streaming Mode</div></div>
         <div class="controls">
-            <button class="btn-play" id="playBtn"><div id="icon" class="play-icon"></div></button>
+            <button class="btn-play" id="playBtn">
+                <span id="volIcon" class="mute-icon">🔇</span>
+            </button>
             <div style="display:flex; align-items:center; gap:6px; font-size:10px; font-weight:bold; color:#ef4444;">
-                <div class="live-dot"></div> LIVE STREAM
+                <div class="live-dot"></div> AUTO-PLAY
             </div>
         </div>
     </div>
-    <audio id="audio" src="https://stream.zeno.fm/gkvbmtw4kkeuv/source" crossorigin="anonymous"></audio>
+    <audio id="audio" src="https://stream.zeno.fm/d2k0ptw4kkeuv" autoplay muted crossorigin="anonymous"></audio>
 </div>
 
 <script>
     const audio = document.getElementById('audio');
     const playBtn = document.getElementById('playBtn');
-    const icon = document.getElementById('icon');
+    const volIcon = document.getElementById('volIcon');
     const player = document.getElementById('player');
     const titleEl = document.getElementById('title');
     const artistEl = document.getElementById('artist');
     const coverEl = document.getElementById('cover');
     const defaultCover = "https://mekarindah.netlify.app/img/default.jpg";
 
+    // --- DATABASE RECITER SUDAH KEMBALI ---
     const RECITER_COVERS = {
             'mishary': 'https://i.ytimg.com/vi/GLMp_EGGLfk/hq720.jpg?sqp=-oaymwExCK4FEIIDSFryq4qpAyMIARUAAIhCGAHwAQH4AdQGgALgA4oCDAgAEAEYciBWKDgwDw==&rs=AOn4CLAa_DZgLB8D4xcMTFPgxpnQghg_sw',
             'abdul': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT99qAcwhSDEUMmxHHzjEfna9YVgtg-04A8rDvXbaNtZf-70ZkRxFPl_i5J_he-DnfdtO7EhS0ouUaiu-hq_bE8Ni9U3xKBjsAdFgzAg4w&s=10',
@@ -140,18 +134,24 @@
             'al sudais': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Abdulrahman_Al-Sudais.jpg/440px-Abdulrahman_Al-Sudais.jpg',
             'ghamdi': 'https://i.ibb.co/Wp0y1hG/ghamdi.jpg',
             'shatri': 'https://i.ibb.co/fQ5N204/shatri.jpg',
-            'abdul basit': 'https://i.ibb.co/RzM805h/abdulbasit.jpg'
+            'abdul basit': 'https://i.ibb.co/RzM805h/abdulbasit.jpg' 
     };
 
-    playBtn.onclick = () => {
-        if (audio.paused) {
-            audio.play();
-            icon.className = 'pause-icon';
+    window.addEventListener('load', () => {
+        audio.play().then(() => {
             player.classList.add('playing');
+        }).catch(err => console.log("Menunggu klik unmute..."));
+    });
+
+    playBtn.onclick = () => {
+        if (audio.muted) {
+            audio.muted = false;
+            volIcon.innerText = '🔊';
+            player.classList.add('playing');
+            audio.play();
         } else {
-            audio.pause();
-            icon.className = 'play-icon';
-            player.classList.remove('playing');
+            audio.muted = true;
+            volIcon.innerText = '🔇';
         }
     };
 
@@ -166,6 +166,7 @@
         let fullString = (artist + " " + title).toLowerCase();
         let foundManual = false;
 
+        // Cek database manual
         for (let key in RECITER_COVERS) {
             if (fullString.includes(key)) {
                 coverEl.src = RECITER_COVERS[key];
@@ -174,6 +175,7 @@
             }
         }
 
+        // Jika tidak ada, cari di iTunes
         if (!foundManual) {
             fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist + " " + title)}&entity=song&limit=1`)
                 .then(res => res.json())
